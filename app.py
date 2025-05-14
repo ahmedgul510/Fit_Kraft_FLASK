@@ -243,10 +243,9 @@ def predict_bmi():
 @app.route('/api/predict/mental_score', methods=['POST'])
 def predict_mental_score():
     try:
-        # Get data from request
         data = request.get_json()
         
-        # Convert to DataFrame
+        # Create DataFrame with keys as received from Node.js
         input_data = pd.DataFrame({
             'Age': [float(data['Age'])],
             'Mood_Score': [float(data['Mood_Score'])],
@@ -254,10 +253,16 @@ def predict_mental_score():
             'Stress_Level': [float(data['Stress_Level'])]
         })
         
-        # Make prediction using the mental health model
-        prediction = mental_model.predict(input_data)[0]
+        # !!! IMPORTANT: Rename columns to match model's training feature names !!!
+        input_data.columns = [
+            'Age', # Assuming 'Age' matches
+            'Mood Score (1-10)',
+            'Physical Activity (hrs/week)',
+            'Stress Level (1-10)'
+        ]
         
-        # Return prediction in a variable named predicted_value
+        prediction = mental_model.predict(input_data)[0]
+        print(prediction)
         return jsonify({
             "AI-Detected_Emotional_State": str(prediction)
         })
