@@ -4,12 +4,13 @@ from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 import requests
 import joblib  # Add this import for loading the pickle file
-from groq import Groq
+from groq import Groq , APIStatusError
 import os
 import json
 import math # To check for NaN
 from datetime import datetime, timedelta, timezone
 from models.dietery import dietery_bp
+import time
 
 app = Flask(__name__)
 
@@ -428,7 +429,7 @@ def generate_workout_route():
 
    # --- Call the Groq API with Retry Logic ---
     attempts = 0
-    MAX_LLM_RETRIES = 3
+    MAX_LLM_RETRIES = 5
     plan_data = None
     json_response_text_for_error = "" # To store the text for error reporting if all retries fail
 
