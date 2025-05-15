@@ -9,10 +9,10 @@ dietery_bp = Blueprint('mealplan', __name__)
 
 # --- Groq Client Initialization ---
 try:
-    client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    client = Groq(api_key=os.environ.get("GROQ_API_KEY_2"))
 except Exception as e:
     print(f"Error initializing Groq client: {e}")
-    print("Please ensure the GROQ_API_KEY environment variable is set correctly.")
+    print("Please ensure the GROQ_API_KEY_2 environment variable is set correctly.")
     client = None
 
 # --- Retry Configuration ---
